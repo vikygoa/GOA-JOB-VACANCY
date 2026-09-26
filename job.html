@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#008f5a"><title>Job Details - Goa Jobs</title>
+<style>
+:root{--g:#008f5a;--g2:#00b96b;--bg:#f4faf7;--text:#10231c;--muted:#69766f}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}.page{max-width:720px;margin:auto;min-height:100vh}.head{color:#fff;background:linear-gradient(135deg,var(--g),var(--g2));padding:14px 17px 22px}.back{border:0;background:rgba(255,255,255,.16);color:#fff;border-radius:12px;padding:9px 13px;font-size:20px}.title{font-size:28px;font-weight:900;line-height:1.12;margin:18px 0 7px}.company{font-size:16px;font-weight:650;opacity:.94}.badge{display:inline-block;margin-top:13px;background:#c8ff8a;color:#165b2d;border-radius:999px;padding:7px 12px;font-weight:800;font-size:12px}.content{padding:14px}.card{background:#fff;border:1px solid #e4ece7;border-radius:19px;margin-bottom:12px;padding:17px;box-shadow:0 4px 14px rgba(10,55,38,.045)}.row{display:flex;gap:13px;margin:3px 0 18px}.ico{width:38px;height:38px;border-radius:12px;background:#effaf4;display:grid;place-items:center;flex:none}.label{font-size:12px;color:var(--muted);font-weight:700}.value{font-size:15px;font-weight:750;margin-top:3px;line-height:1.4}.salary{background:#fff5bd;border-radius:14px;padding:14px;margin-top:8px}.salary strong{display:block;color:#008f5a;font-size:20px;margin-top:3px}.section-title{font-size:17px;font-weight:850;margin:0 0 14px}.desc{white-space:pre-wrap;line-height:1.55;color:#34443c;font-size:14px}.btn{display:block;text-decoration:none;text-align:center;background:linear-gradient(135deg,#008f5a,#00b96b);color:white;border-radius:14px;padding:14px;font-weight:850;margin-top:12px}.btn.blue{background:#147cf5}.muted{color:var(--muted);font-size:13px}.loading{text-align:center;padding:50px;color:var(--muted)}
+</style>
+</head>
+<body><div class="page"><header id="head" class="head"><button class="back" onclick="history.back()">‹</button><div id="title" class="title">Loading...</div><div id="company" class="company"></div><span id="badge" class="badge">Job Vacancy</span></header><main id="content" class="content"><div class="loading">Loading job details...</div></main></div>
+<script>
+const esc=v=>String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+const id=new URLSearchParams(location.search).get('id');
+function field(icon,label,value){if(!value)return '';return `<div class="row"><div class="ico">${icon}</div><div><div class="label">${label}</div><div class="value">${esc(value)}</div></div></div>`}
+async function load(){
+ try{
+  const r=await fetch('data/jobs.json?ts='+Date.now());const d=await r.json();const jobs=Array.isArray(d)?d:(d.jobs||[]);
+  const j=jobs.find(x=>String(x.job_id||x.id)===decodeURIComponent(id||''))||jobs[Number(id)];
+  if(!j){document.getElementById('content').innerHTML='<div class="loading">Job not found.</div>';return}
+  document.title=(j.title||'Job Details')+' - Goa Jobs';
+  document.getElementById('title').textContent=j.title||'Job Vacancy';
+  document.getElementById('company').textContent=j.company||'';
+  document.getElementById('badge').textContent=(j.employment_type||'Job Vacancy');
+  let html='<section class="card">';
+  html+=field('📍','Location',j.location);
+  html+=field('💼','Job Type',j.employment_type);
+  html+=field('👥','Number of Posts',j.vacancies);
+  html+=field('🎓','Qualification',j.qualification);
+  if(j.salary)html+=`<div class="salary"><div class="label">Salary / Pay</div><strong>${esc(j.salary)}</strong></div>`;
+  html+='</section>';
+  if(j.last_date||j.apply||j.source)html+='<section class="card"><h2 class="section-title">Important Information</h2>'+field('📅','Last Date',j.last_date)+field('🔗','Source',j.source)+'</section>';
+  if(j.description)html+=`<section class="card"><h2 class="section-title">Job Information</h2><div class="desc">${esc(j.description)}</div></section>`;
+  if(j.apply)html+=`<section class="card"><h2 class="section-title">Apply</h2><a class="btn blue" href="${esc(j.apply)}" target="_blank" rel="noopener">Apply Online ↗</a></section>`;
+  document.getElementById('content').innerHTML=html;
+ }catch(e){document.getElementById('content').innerHTML='<div class="loading">Unable to load job details.</div>'}
+}
+load();
+</script></body></html>
