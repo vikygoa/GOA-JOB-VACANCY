@@ -2,67 +2,109 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Goa Jobs - Latest Job Vacancies in Goa</title>
-<meta name="description" content="Latest job vacancies in Goa collected from public job-post sources.">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#008f5a">
+<meta name="description" content="Goa Jobs - latest government and private job vacancies in Goa.">
+<title>Goa Jobs</title>
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f5f7fb;color:#18202a}
-header{background:#0b6b4f;color:#fff;padding:22px 16px;text-align:center}
-header h1{margin:0 0 6px;font-size:28px}header p{margin:0;opacity:.9}
-main{max-width:1000px;margin:auto;padding:18px}
-#status{margin:8px 0 18px;color:#566}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
-.card{background:#fff;border-radius:14px;padding:16px;box-shadow:0 2px 10px #0001}
-.card h2{margin:0 0 8px;font-size:20px}.meta{margin:6px 0;color:#445}
-.badge{display:inline-block;background:#e8f5ef;color:#086543;padding:5px 9px;border-radius:20px;font-size:12px}
-.desc{line-height:1.5}.source{font-size:12px;color:#777;margin-top:12px}
-a{color:#086543;text-decoration:none}.empty{padding:30px;text-align:center}
+:root{--green:#008f5a;--green2:#00b96b;--dark:#063d2b;--bg:#f4faf7;--text:#10231c;--muted:#708078;--white:#fff;--line:#e6eee9}
+*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+body{min-height:100vh}.hidden{display:none!important}
+.splash{position:fixed;inset:0;z-index:100;background:linear-gradient(150deg,#006b45 0%,#00a965 48%,#c8ff45 100%);display:flex;align-items:center;justify-content:center;color:white;overflow:hidden}
+.splash:before,.splash:after{content:"";position:absolute;border-radius:50%;filter:blur(2px)}
+.splash:before{width:300px;height:300px;background:rgba(255,255,255,.14);top:-100px;right:-80px}
+.splash:after{width:260px;height:260px;background:rgba(255,224,63,.18);bottom:-80px;left:-70px}
+.splash-inner{text-align:center;position:relative;z-index:2;padding:28px}
+.palm{font-size:64px;line-height:1;margin-bottom:18px;filter:drop-shadow(0 8px 18px rgba(0,0,0,.18))}
+.splash h1{font-size:48px;line-height:.95;margin:0;font-weight:900;letter-spacing:-2px;text-shadow:0 3px 0 rgba(0,0,0,.08)}
+.splash h1 span{display:block;color:#fff35b}.splash p{font-size:17px;margin:18px 0 28px;font-weight:600}
+.loader{width:180px;height:7px;border-radius:20px;background:rgba(255,255,255,.28);margin:auto;overflow:hidden}
+.loader i{display:block;width:45%;height:100%;background:white;border-radius:20px;animation:load 1.2s infinite ease-in-out}
+@keyframes load{0%{transform:translateX(-120%)}100%{transform:translateX(420%)}}
+.app{max-width:720px;margin:auto;min-height:100vh}
+.top{background:linear-gradient(135deg,var(--green),var(--green2));color:white;padding:16px 18px 18px;position:sticky;top:0;z-index:20;box-shadow:0 4px 18px rgba(0,80,50,.15)}
+.brand{display:flex;align-items:center;gap:10px}.brand-icon{font-size:30px}.brand h1{font-size:22px;margin:0;font-weight:850}.brand small{display:block;opacity:.85;margin-top:2px}
+.search{margin-top:15px;background:white;border-radius:18px;height:48px;display:flex;align-items:center;padding:0 15px;color:#75827c;box-shadow:0 4px 15px rgba(0,0,0,.08)}
+.search input{border:0;outline:0;width:100%;font-size:15px;margin-left:9px;background:transparent}
+.filters{display:flex;gap:8px;overflow:auto;margin-top:12px;padding-bottom:2px}.filter{border:0;border-radius:999px;padding:9px 15px;background:rgba(255,255,255,.18);color:#fff;white-space:nowrap;font-weight:700}.filter.active{background:#fff;color:var(--green)}
+.hero{margin:16px;background:linear-gradient(135deg,#fff4a8,#fff);border:1px solid #f2e9ae;border-radius:20px;padding:15px 17px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 5px 18px rgba(0,0,0,.04)}
+.hero b{font-size:18px}.hero small{display:block;color:#727b76;margin-top:4px}.fire{font-size:30px}
+.list{padding:0 12px 90px}.job-card{background:#fff;border:1px solid var(--line);border-radius:16px;margin:10px 4px;min-height:64px;display:flex;align-items:center;gap:12px;padding:13px 14px;box-shadow:0 3px 12px rgba(16,50,38,.045);cursor:pointer;transition:.18s}
+.job-card:active{transform:scale(.985)}.job-icon{width:40px;height:40px;border-radius:13px;background:#e8fff2;display:grid;place-items:center;font-size:20px;flex:none}.job-title{font-weight:800;font-size:15px;line-height:1.3;flex:1}.arrow{font-size:23px;color:#a3aea8}.new{font-size:10px;font-weight:900;background:#ff3d4f;color:#fff;border-radius:8px;padding:4px 6px;margin-left:auto}
+.empty{text-align:center;color:var(--muted);padding:50px 20px}
+.bottom{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(720px,100%);background:rgba(255,255,255,.96);backdrop-filter:blur(14px);border-top:1px solid var(--line);display:flex;justify-content:space-around;padding:9px 5px calc(9px + env(safe-area-inset-bottom));z-index:30}
+.nav{border:0;background:transparent;color:#78847e;font-size:11px;font-weight:700}.nav.active{color:var(--green)}.nav span{display:block;font-size:21px;margin-bottom:2px}
 </style>
 </head>
 <body>
-<header>
-  <h1>Goa Jobs</h1>
-  <p>Latest job vacancies in Goa</p>
+<div id="splash" class="splash">
+  <div class="splash-inner">
+    <div class="palm">🌴</div>
+    <h1>GOA <span>JOB VACANCIES</span></h1>
+    <p>Latest Government & Private Jobs in Goa</p>
+    <div class="loader"><i></i></div>
+  </div>
+</div>
+
+<div class="app">
+<header class="top">
+  <div class="brand"><div class="brand-icon">🌴</div><div><h1>Goa Jobs</h1><small>Latest job vacancies in Goa</small></div></div>
+  <div class="search">🔎<input id="search" placeholder="Search jobs..." autocomplete="off"></div>
+  <div class="filters">
+    <button class="filter active" data-filter="all">All</button>
+    <button class="filter" data-filter="government">Government</button>
+    <button class="filter" data-filter="private">Private</button>
+    <button class="filter" data-filter="contract">Contract</button>
+  </div>
 </header>
-<main>
-  <div id="status">Loading jobs...</div>
-  <section id="jobs" class="grid"></section>
-</main>
+
+<section class="hero"><div><b>🔥 <span id="count">0</span> Jobs Available</b><small id="updated">Loading latest jobs...</small></div><div class="fire">💼</div></section>
+<main id="list" class="list"></main>
+<div id="empty" class="empty hidden">No jobs found.</div>
+</div>
+
+<nav class="bottom">
+  <button class="nav active"><span>⌂</span>Home</button>
+  <button class="nav" onclick="window.scrollTo({top:0,behavior:'smooth'})"><span>▦</span>Jobs</button>
+  <button class="nav" onclick="location.reload()"><span>↻</span>Updates</button>
+  <button class="nav" onclick="location.href='https://vikygoa.github.io/GOA-JOB-VACANCY/'"><span>◎</span>Website</button>
+</nav>
+
 <script>
-function esc(v){
-  return String(v ?? "Not specified").replace(/[&<>"']/g,m=>({
-    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-  }[m]));
+let jobs=[],filter='all';
+const $=id=>document.getElementById(id);
+function esc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+function typeOf(j){
+  const s=(j.employment_type+' '+j.company+' '+j.title).toLowerCase();
+  if(s.includes('government')||s.includes('govt')||s.includes('government of goa')||s.includes('staff selection commission')||s.includes('directorate')) return 'government';
+  if(s.includes('contract')) return 'contract';
+  return 'private';
 }
+function icon(j){const t=(j.title||'').toLowerCase();if(t.includes('driver'))return '🚗';if(t.includes('engineer'))return '🛠️';if(t.includes('teacher'))return '🎓';if(t.includes('clerk'))return '📄';if(t.includes('technician'))return '🧪';return '💼'}
+function render(){
+  const q=$('search').value.toLowerCase().trim();
+  const filtered=jobs.filter(j=>(filter==='all'||typeOf(j)===filter)&&(!q||(j.title||'').toLowerCase().includes(q)));
+  $('count').textContent=filtered.length;
+  $('list').innerHTML=filtered.map((j,i)=>`<article class="job-card" onclick="openJob('${encodeURIComponent(j.job_id||j.id||i)}')">
+    <div class="job-icon">${icon(j)}</div>
+    <div class="job-title">${esc(j.title||'Job Vacancy')}</div>
+    ${i<3&&!q&&filter==='all'?'<span class="new">NEW</span>':''}
+    <div class="arrow">›</div>
+  </article>`).join('');
+  $('empty').classList.toggle('hidden',filtered.length>0);
+}
+function openJob(id){location.href='job.html?id='+id}
 async function load(){
-  const status=document.getElementById("status"), box=document.getElementById("jobs");
   try{
-    const r=await fetch("data/jobs.json?"+Date.now(),{cache:"no-store"});
-    if(!r.ok) throw new Error("jobs.json unavailable");
-    const d=await r.json(), jobs=d.jobs||[];
-    status.textContent=jobs.length
-      ? `${jobs.length} job listings`
-      : "No jobs available yet.";
-    box.innerHTML=jobs.map(j=>`
-      <article class="card">
-        <span class="badge">${esc(j.job_type)}</span>
-        <h2>${esc(j.title)}</h2>
-        <div class="meta"><b>Company:</b> ${esc(j.company)}</div>
-        <div class="meta"><b>Location:</b> ${esc(j.location)}</div>
-        <div class="meta"><b>Qualification:</b> ${esc(j.qualification)}</div>
-        <div class="meta"><b>Experience:</b> ${esc(j.experience)}</div>
-        <div class="meta"><b>Salary:</b> ${esc(j.salary)}</div>
-        <div class="meta"><b>Last date:</b> ${esc(j.last_date)}</div>
-        <p class="desc">${esc(j.description)}</p>
-        <div class="meta"><b>Contact:</b> ${esc(j.contact)}</div>
-        <div class="source">Source: @${esc(j.source_account)}</div>
-      </article>`).join("");
-  }catch(e){
-    status.textContent="Could not load jobs.";
-    box.innerHTML='<div class="empty">The jobs data has not been generated yet. Run the GitHub Action.</div>';
-  }
+    const r=await fetch('data/jobs.json?ts='+Date.now()); const d=await r.json(); jobs=Array.isArray(d)?d:(d.jobs||[]);
+    $('updated').textContent=d.last_updated?('Last updated: '+new Date(d.last_updated).toLocaleString()):'Latest jobs from Goa sources';
+    render();
+  }catch(e){$('updated').textContent='Unable to load jobs';$('empty').classList.remove('hidden')}
 }
+document.querySelectorAll('.filter').forEach(b=>b.onclick=()=>{document.querySelectorAll('.filter').forEach(x=>x.classList.remove('active'));b.classList.add('active');filter=b.dataset.filter;render()});
+$('search').oninput=render;
 load();
+setTimeout(()=>{$('splash').style.opacity='0';$('splash').style.transition='opacity .45s';setTimeout(()=>$('splash').remove(),450)},1400);
 </script>
 </body>
 </html>
