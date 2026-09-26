@@ -5,6 +5,6 @@
     "dailyjobs__goa"
   ],
   "posts_per_account": 6,
-  "gemini_model": "gemini-2.5-flash",
+  "gemini_model": "gemini-3.8-flash",
   "max_jobs_per_run": 30
 }
