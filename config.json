@@ -6,5 +6,8 @@
   ],
   "posts_per_account": 6,
   "gemini_model": "gemini-3.8-flash",
-  "max_ai_posts_per_run": 30
+  "max_ai_posts_per_run": 5,
+  "max_gemini_requests_per_run": 5,
+  "gemini_request_interval_seconds": 16,
+  "retry_503_seconds": 30
 }
