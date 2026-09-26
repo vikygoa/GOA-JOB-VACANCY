@@ -142,10 +142,46 @@ def generate_with_safe_retry(contents):
             raise
 
 
+def get_downloaded_media_paths(post):
+    """
+    The Instagram scraper stores downloaded images in `images`.
+    Older versions used `media_paths`. Accept both so the parser
+    remains compatible with either format.
+    """
+    raw_paths = (
+        post.get("media_paths")
+        or post.get("images")
+        or post.get("image_paths")
+        or post.get("files")
+        or []
+    )
+
+    if isinstance(raw_paths, str):
+        raw_paths = [raw_paths]
+
+    resolved = []
+    for raw in raw_paths:
+        if not raw:
+            continue
+
+        path = Path(str(raw))
+
+        # Paths written by instagram_scraper.py are relative to ROOT.
+        if not path.is_absolute():
+            path = ROOT / path
+
+        if path.exists() and path.is_file() and path.stat().st_size > 0:
+            resolved.append(path)
+
+    return resolved
+
+
 def parse_carousel(post):
-    media_paths = post.get("media_paths", [])
+    media_paths = get_downloaded_media_paths(post)
     if not media_paths:
-        raise RuntimeError("No downloaded media for post")
+        raise RuntimeError(
+            f"No downloaded media for post {post.get('post_id', '')}"
+        )
 
     prompt = """
 You are extracting job vacancies from an Instagram job post/carousel.
@@ -197,7 +233,7 @@ def main():
 
     for post in posts:
         post_id = str(post.get("post_id", ""))
-        username = post.get("username", "")
+        username = post.get("username") or post.get("account", "")
         try:
             jobs = parse_carousel(post)
 
@@ -223,7 +259,7 @@ def main():
                 job["job_id"] = job_id
                 job["instagram_post_id"] = post_id
                 job["instagram_username"] = username
-                job["images"] = post.get("media_paths", [])
+                job["images"] = [str(p.relative_to(ROOT)) for p in get_downloaded_media_paths(post)]
                 pending_jobs.append(job)
                 existing_pending_ids.add(job_id)
                 new_count += 1
