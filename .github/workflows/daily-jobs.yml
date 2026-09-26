@@ -1,8 +1,16 @@
-name: Daily Goa Jobs
+name: Goa Jobs
 
 on:
   schedule:
+    # 07:00 IST
     - cron: "30 1 * * *"
+
+    # 13:00 IST
+    - cron: "30 7 * * *"
+
+    # 19:00 IST
+    - cron: "30 13 * * *"
+
   workflow_dispatch:
 
 permissions:
@@ -11,7 +19,7 @@ permissions:
 jobs:
   update:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
 
     steps:
       - name: Checkout
@@ -25,18 +33,21 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Fetch new Instagram posts
+      - name: Fetch new Instagram posts and all carousel slides
         run: python scraper/instagram_scraper.py
 
-      - name: Parse jobs with Gemini
+      - name: Extract jobs with Gemini
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: python scraper/ai_parser.py
 
-      - name: Remove debug responses from commit
+      - name: Publish maximum 3 jobs
+        run: python scraper/publisher.py
+
+      - name: Remove debug responses
         run: rm -rf debug
 
-      - name: Commit updated jobs
+      - name: Commit updated data
         run: |
           git config user.name "goa-jobs-bot"
           git config user.email "actions@users.noreply.github.com"
