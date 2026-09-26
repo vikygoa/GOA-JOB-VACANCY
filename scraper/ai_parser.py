@@ -1,468 +1,269 @@
 import json
 import os
-from pathlib import Path
 from datetime import datetime, timezone
+from pathlib import Path
 
 from google import genai
 from google.genai import types
 
-
 ROOT = Path(__file__).resolve().parents[1]
-
-CONFIG = json.loads(
-    (ROOT / "config.json").read_text(
-        encoding="utf-8"
-    )
-)
+CONFIG = json.loads((ROOT / "config.json").read_text(encoding="utf-8"))
 
 NEW_FILE = ROOT / "data" / "new_posts.json"
-JOBS_FILE = ROOT / "data" / "jobs.json"
 PROCESSED_FILE = ROOT / "data" / "processed_posts.json"
+PENDING_FILE = ROOT / "data" / "pending_jobs.json"
 
-
-# Structured output schema sent to Gemini.
 JOB_SCHEMA = {
     "type": "object",
-
     "properties": {
-
-        "title": {
-            "type": "string"
-        },
-
-        "company": {
-            "type": "string"
-        },
-
-        "location": {
-            "type": "string"
-        },
-
-        "qualification": {
-            "type": "string"
-        },
-
-        "experience": {
-            "type": "string"
-        },
-
-        "salary": {
-            "type": "string"
-        },
-
-        "last_date": {
-            "type": "string"
-        },
-
-        "contact": {
-            "type": "string"
-        },
-
-        "description": {
-            "type": "string"
-        },
-
-        "job_type": {
-            "type": "string"
+        "jobs": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "title": {"type": "string"},
+                    "company": {"type": "string"},
+                    "location": {"type": "string"},
+                    "qualification": {"type": "string"},
+                    "experience": {"type": "string"},
+                    "salary": {"type": "string"},
+                    "last_date": {"type": "string"},
+                    "contact": {"type": "string"},
+                    "description": {"type": "string"},
+                    "job_type": {"type": "string"},
+                },
+                "required": [
+                    "title",
+                    "company",
+                    "location",
+                    "qualification",
+                    "experience",
+                    "salary",
+                    "last_date",
+                    "contact",
+                    "description",
+                    "job_type",
+                ],
+            },
         }
     },
-
-    "required": [
-        "title",
-        "company",
-        "location",
-        "qualification",
-        "experience",
-        "salary",
-        "last_date",
-        "contact",
-        "description",
-        "job_type"
-    ]
+    "required": ["jobs"],
 }
 
 
 def load_json(path, default):
-    """Safely load a JSON file."""
-
     try:
-
-        with open(
-            path,
-            "r",
-            encoding="utf-8"
-        ) as f:
-
-            data = json.load(f)
-
-        return data
-
+        return json.loads(path.read_text(encoding="utf-8"))
     except Exception:
-
         return default
 
 
 def mark_processed(post_id):
-    """
-    Mark an Instagram post as processed.
-
-    IMPORTANT:
-    This function is called ONLY after Gemini
-    successfully returns valid job data.
-    """
-
     data = load_json(
         PROCESSED_FILE,
-        {
-            "processed_posts": []
-        }
+        {"processed_posts": []},
     )
 
-    ids = data.get(
-        "processed_posts",
-        []
-    )
-
+    ids = data.get("processed_posts", [])
     if not isinstance(ids, list):
         ids = []
 
     if post_id not in ids:
         ids.append(post_id)
 
-    # Keep the file from growing forever.
-    ids = list(
-        dict.fromkeys(ids)
-    )[-1000:]
+    data["processed_posts"] = list(dict.fromkeys(ids))[-2000:]
 
-    data["processed_posts"] = ids
+    PROCESSED_FILE.write_text(
+        json.dumps(data, indent=2, ensure_ascii=False),
+        encoding="utf-8",
+    )
 
-    with open(
-        PROCESSED_FILE,
-        "w",
-        encoding="utf-8"
-    ) as f:
 
-        json.dump(
-            data,
-            f,
-            indent=2,
-            ensure_ascii=False
+def parse_carousel(client, model, image_paths):
+    contents = []
+
+    # Gemini receives every slide from ONE Instagram post in ONE request.
+    for image_path in image_paths:
+        contents.append(
+            types.Part.from_bytes(
+                data=Path(ROOT / image_path).read_bytes(),
+                mime_type="image/jpeg",
+            )
         )
 
+    contents.append(
+        """
+You are extracting jobs from ONE Instagram job announcement.
 
-def parse_job_image(
-    client,
-    model,
-    image_path
-):
-    """Send a job poster image to Gemini."""
+The attached images are ALL slides of the same Instagram post.
+Read them together. Some slides may continue information from
+previous slides.
 
-    image_data = Path(
-        image_path
-    ).read_bytes()
-
-    prompt = """
-Read this job vacancy poster carefully.
-
-Extract only information that is actually visible
-in the image.
+Create one job object for EACH distinct vacancy/post listed in
+the complete carousel.
 
 Rules:
-
-1. Do not invent information.
-2. If information is missing, use "Not specified".
-3. Correct obvious spelling/OCR errors.
-4. Keep company names and contact information accurate.
-5. Rewrite the description into clear, short English.
-6. Do not add facts that are not visible.
-7. The job is intended for a Goa jobs website.
-8. Return only the requested JSON structure.
+- Do not treat every slide as a separate job if slides are only
+  continuation/details.
+- Combine information across slides when necessary.
+- Do not invent missing information.
+- Use "Not specified" when information is absent.
+- Correct obvious spelling/OCR errors.
+- Preserve company names, locations, salaries, dates and contacts.
+- Rewrite each description clearly and briefly without adding facts.
+- If one poster contains 10 different posts, return 10 jobs.
+- Return only the requested JSON structure.
 """
+    )
 
     response = client.models.generate_content(
-
         model=model,
-
-        contents=[
-
-            types.Part.from_bytes(
-                data=image_data,
-                mime_type="image/jpeg"
-            ),
-
-            prompt
-        ],
-
+        contents=contents,
         config=types.GenerateContentConfig(
-
             response_mime_type="application/json",
-
             response_schema=JOB_SCHEMA,
-
-            temperature=0.1
-        )
+            temperature=0.1,
+        ),
     )
 
     if not response.text:
-        raise RuntimeError(
-            "Gemini returned an empty response"
-        )
+        raise RuntimeError("Gemini returned an empty response")
 
-    try:
+    data = json.loads(response.text)
 
-        parsed = json.loads(
-            response.text
-        )
+    if not isinstance(data, dict) or not isinstance(data.get("jobs"), list):
+        raise RuntimeError("Gemini did not return a jobs array")
 
-    except json.JSONDecodeError as error:
+    return data["jobs"]
 
-        raise RuntimeError(
-            f"Gemini returned invalid JSON: {error}"
-        )
 
-    if not isinstance(parsed, dict):
-        raise RuntimeError(
-            "Gemini response is not a JSON object"
-        )
+def make_job_id(post_id, index, job):
+    # Stable ID: same Instagram post + same extracted position.
+    # This prevents publishing the same extracted job twice.
+    title = str(job.get("title", "")).strip().lower()
+    company = str(job.get("company", "")).strip().lower()
 
-    return parsed
+    import hashlib
+    raw = f"{post_id}|{index}|{title}|{company}"
+    return hashlib.sha256(raw.encode("utf-8")).hexdigest()[:20]
 
 
 def main():
-
-    api_key = os.environ.get(
-        "GEMINI_API_KEY"
-    )
-
+    api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:
+        raise RuntimeError("GEMINI_API_KEY GitHub Secret is missing.")
 
-        raise RuntimeError(
-            "GEMINI_API_KEY GitHub Secret is missing."
-        )
-
-    new_data = load_json(
-        NEW_FILE,
-        {
-            "posts": []
-        }
-    )
-
-    jobs_data = load_json(
-        JOBS_FILE,
+    new_data = load_json(NEW_FILE, {"posts": []})
+    pending_data = load_json(
+        PENDING_FILE,
         {
             "last_updated": None,
-            "jobs": []
-        }
+            "jobs": [],
+        },
     )
 
-    processed_data = load_json(
-        PROCESSED_FILE,
-        {
-            "processed_posts": []
-        }
-    )
+    pending = pending_data.get("jobs", [])
+    if not isinstance(pending, list):
+        pending = []
 
-    jobs = jobs_data.get(
-        "jobs",
-        []
-    )
+    existing_job_ids = {
+        str(job.get("job_id"))
+        for job in pending
+        if job.get("job_id")
+    }
 
-    if not isinstance(jobs, list):
-        jobs = []
+    client = genai.Client(api_key=api_key)
+    model = CONFIG.get("gemini_model", "gemini-3.8-flash")
+    max_posts = int(CONFIG.get("max_ai_posts_per_run", 30))
 
-    processed_ids = set(
-        processed_data.get(
-            "processed_posts",
-            []
-        )
-    )
+    success = 0
+    failed = 0
 
-    existing_job_ids = set()
-
-    for job in jobs:
-
-        post_id = job.get(
-            "source_post_id"
-        )
-
-        if post_id:
-            existing_job_ids.add(
-                str(post_id)
-            )
-
-    client = genai.Client(
-        api_key=api_key
-    )
-
-    model = CONFIG.get(
-        "gemini_model",
-        "gemini-3.8-flash"
-    )
-
-    max_jobs = int(
-        CONFIG.get(
-            "max_jobs_per_run",
-            30
-        )
-    )
-
-    success_count = 0
-    failure_count = 0
-
-    posts = new_data.get(
-        "posts",
-        []
-    )
-
-    for item in posts[:max_jobs]:
-
-        post_id = str(
-            item["post_id"]
-        )
-
-        # Safety check.
-        if post_id in processed_ids:
-            continue
-
-        if post_id in existing_job_ids:
-
-            # The job already exists in jobs.json.
-            # It is safe to mark it processed.
-            mark_processed(
-                post_id
-            )
-
-            processed_ids.add(
-                post_id
-            )
-
-            continue
-
-        image_path = ROOT / item["image"]
-
-        if not image_path.exists():
-
-            failure_count += 1
-
-            print(
-                f"WARNING: Image missing for "
-                f"{post_id}. "
-                f"Post will be retried."
-            )
-
-            continue
+    for post in new_data.get("posts", [])[:max_posts]:
+        post_id = str(post["post_id"])
 
         try:
-
-            parsed = parse_job_image(
+            extracted_jobs = parse_carousel(
                 client,
                 model,
-                image_path
+                post["images"],
             )
-
-        except Exception as error:
-
-            failure_count += 1
-
+        except Exception as exc:
+            failed += 1
             print(
-                f"WARNING: Gemini failed for "
-                f"{post_id}: {error}"
+                f"WARNING: Gemini failed for post {post_id}: {exc}"
             )
-
-            print(
-                "Post was NOT marked processed "
-                "and will be retried."
-            )
-
+            print("Post remains unprocessed and will be retried.")
             continue
 
-        # Add source information only AFTER
-        # Gemini returned valid job data.
-        parsed["source_account"] = (
-            item["account"]
-        )
+        if not extracted_jobs:
+            failed += 1
+            print(
+                f"WARNING: Gemini returned zero jobs for {post_id}. "
+                "Post remains unprocessed."
+            )
+            continue
 
-        parsed["source_post_id"] = (
-            post_id
-        )
+        added = 0
 
-        parsed["source_image"] = (
-            item["image"]
-        )
+        for index, job in enumerate(extracted_jobs, start=1):
+            job_id = make_job_id(
+                post_id,
+                index,
+                job,
+            )
 
-        parsed["source_url"] = (
-            f"https://www.instagram.com/"
-            f"{item['account']}/"
-        )
+            if job_id in existing_job_ids:
+                continue
 
-        parsed["processed_at"] = (
-            datetime.now(
+            job["job_id"] = job_id
+            job["source_post_id"] = post_id
+            job["source_account"] = post["account"]
+            job["source_images"] = post["images"]
+            job["source_url"] = (
+                f"https://www.instagram.com/{post['account']}/"
+            )
+            job["created_at"] = datetime.now(
                 timezone.utc
             ).isoformat()
-        )
 
-        # Add the new job.
-        jobs.insert(
-            0,
-            parsed
-        )
-
-        existing_job_ids.add(
-            post_id
-        )
+            pending.append(job)
+            existing_job_ids.add(job_id)
+            added += 1
 
         # CRITICAL:
-        # Only now mark the Instagram post
-        # as successfully processed.
-        mark_processed(
-            post_id
-        )
+        # Mark the Instagram post processed only after the whole
+        # carousel was successfully interpreted and its jobs
+        # were added/deduplicated in the pending queue.
+        mark_processed(post_id)
 
-        processed_ids.add(
-            post_id
-        )
-
-        success_count += 1
+        success += 1
 
         print(
-            f"Added job: "
-            f"{parsed.get('title', 'Untitled')}"
+            f"Processed @{post['account']} {post_id}: "
+            f"{len(extracted_jobs)} job(s), {added} new"
         )
 
-    jobs_data["last_updated"] = (
-        datetime.now(
-            timezone.utc
-        ).isoformat()
-    )
+    pending_data["last_updated"] = datetime.now(
+        timezone.utc
+    ).isoformat()
 
-    jobs_data["jobs"] = jobs[:500]
+    pending_data["jobs"] = pending[-2000:]
 
-    with open(
-        JOBS_FILE,
-        "w",
-        encoding="utf-8"
-    ) as f:
-
-        json.dump(
-            jobs_data,
-            f,
+    PENDING_FILE.write_text(
+        json.dumps(
+            pending_data,
             indent=2,
-            ensure_ascii=False
-        )
+            ensure_ascii=False,
+        ),
+        encoding="utf-8",
+    )
 
-    print("")
     print(
-        "Gemini processing complete."
+        f"AI complete: {success} post(s) processed, "
+        f"{failed} post(s) failed/retry."
     )
-    print(
-        f"Successful jobs: {success_count}"
-    )
-    print(
-        f"Failed/retry jobs: {failure_count}"
-    )
-    print(
-        f"Total jobs stored: {len(jobs_data['jobs'])}"
-    )
+    print(f"Pending jobs: {len(pending_data['jobs'])}")
 
 
 if __name__ == "__main__":
