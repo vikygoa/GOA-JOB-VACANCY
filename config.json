@@ -1,0 +1,10 @@
+{
+  "instagram_api_url": "https://europe-west3-storyviewer-7a64d.cloudfunctions.net/getInstagramData",
+  "accounts": [
+    "jobs_update_in_goa",
+    "dailyjobs__goa"
+  ],
+  "posts_per_account": 6,
+  "gemini_model": "gemini-2.5-flash",
+  "max_jobs_per_run": 30
+}
