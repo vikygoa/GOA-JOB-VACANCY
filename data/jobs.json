@@ -1,6 +1,71 @@
 {
-  "last_updated": "2026-10-05T01:49:26.131201+00:00",
+  "last_updated": "2026-10-05T08:48:42.124373+00:00",
   "jobs": [
+    {
+      "title": "M.T.S.",
+      "company": "St. Xavier's Higher Secondary School",
+      "location": "Mapusa, Bardez-Goa",
+      "employment_type": "Regular",
+      "vacancies": "01",
+      "qualification": "SSC pass",
+      "salary": "",
+      "last_date": "Within 10 days",
+      "apply": "Apply to The Manager, St. Xavier's Higher Secondary School, Mapusa Goa along with testimonials, Employment Exchange Registration, Residence Certificate. Mention email ID and contact number on resume.",
+      "source": "",
+      "description": "Candidates must be below 45 years of age and meet qualifications as per Government Recruitment Rules.",
+      "job_id": "50db6ec194ba5a28210e",
+      "instagram_post_id": "4000652363967798746",
+      "instagram_username": "dailyjobs__goa",
+      "images": [
+        "images/dailyjobs__goa_4000652363967798746_01.jpg"
+      ]
+    },
+    {
+      "title": "Undergraduate Teacher - Maths and Science",
+      "company": "Bal Bharati Vidyamandir",
+      "location": "Ribandar, Goa",
+      "employment_type": "",
+      "vacancies": "",
+      "qualification": "",
+      "salary": "",
+      "last_date": "5th October 2026",
+      "apply": "Contact with application, certificates, testimonials, employment card, etc. on 5th October 2026 at 09:00 AM",
+      "source": "www.dailyjobsgoa.in",
+      "description": "Recruitment for Undergraduate Teacher in Maths and Science.",
+      "job_id": "13a77fb7dde74240aec2",
+      "instagram_post_id": "4000459539312305774",
+      "instagram_username": "dailyjobs__goa",
+      "images": [
+        "images/dailyjobs__goa_4000459539312305774_01.jpg",
+        "images/dailyjobs__goa_4000459539312305774_02.jpg",
+        "images/dailyjobs__goa_4000459539312305774_03.jpg",
+        "images/dailyjobs__goa_4000459539312305774_04.jpg",
+        "images/dailyjobs__goa_4000459539312305774_05.jpg"
+      ]
+    },
+    {
+      "title": "Vocational Teacher - General Foundation Course",
+      "company": "Damodar Higher Secondary School",
+      "location": "Gudi-Paroda, Goa",
+      "employment_type": "Contract Basis",
+      "vacancies": "1",
+      "qualification": "M.Com",
+      "salary": "",
+      "last_date": "10 October 2026",
+      "apply": "Walk-in Interview on 10 October 2026 at 10:00 AM",
+      "source": "www.dailyjobsgoa.in",
+      "description": "Recruitment for Vocational Teacher for General Foundation Course on contract basis.",
+      "job_id": "4197cff1f9b230752637",
+      "instagram_post_id": "4000459539312305774",
+      "instagram_username": "dailyjobs__goa",
+      "images": [
+        "images/dailyjobs__goa_4000459539312305774_01.jpg",
+        "images/dailyjobs__goa_4000459539312305774_02.jpg",
+        "images/dailyjobs__goa_4000459539312305774_03.jpg",
+        "images/dailyjobs__goa_4000459539312305774_04.jpg",
+        "images/dailyjobs__goa_4000459539312305774_05.jpg"
+      ]
+    },
     {
       "title": "Teacher Grade I in Biology",
       "company": "St. Xavier's Higher Secondary School",
