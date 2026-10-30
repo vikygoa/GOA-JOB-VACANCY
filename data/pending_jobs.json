@@ -1,66 +1,6 @@
 {
-  "last_updated": "2026-10-30T01:52:09.068567+00:00",
+  "last_updated": "2026-10-30T08:35:25.516339+00:00",
   "jobs": [
-    {
-      "title": "Painter",
-      "company": "Goa Shipyard Limited",
-      "location": "Goa",
-      "employment_type": "Contract",
-      "vacancies": "04",
-      "qualification": "",
-      "salary": "Rs. 27,200 - Rs. 30,100 per month",
-      "last_date": "",
-      "apply": "www.goashipyard.in",
-      "source": "Advt. No. 09/2026",
-      "description": "Reservation: OBC(NCL)-01, UR-02, SC-01. Upper age limit as on 30.09.2026: UR/EWS-33 years. Fixed term contract basis for 03 years extendable by 02 years.",
-      "job_id": "d7ffaefb2a33d944d160",
-      "instagram_post_id": "4016959005372761207",
-      "instagram_username": "jobs_update_in_goa",
-      "images": [
-        "images/jobs_update_in_goa_4016959005372761207_01.jpg",
-        "images/jobs_update_in_goa_4016959005372761207_02.jpg"
-      ]
-    },
-    {
-      "title": "Steward cum Cook",
-      "company": "Goa Shipyard Limited",
-      "location": "Goa",
-      "employment_type": "Contract",
-      "vacancies": "02",
-      "qualification": "",
-      "salary": "Rs. 40,700 - Rs. 45,000 per month",
-      "last_date": "",
-      "apply": "www.goashipyard.in",
-      "source": "Advt. No. 09/2026",
-      "description": "Reservation: UR-02. Upper age limit as on 30.09.2026: UR/EWS-41 years. Fixed term contract basis for 03 years extendable by 02 years.",
-      "job_id": "3d5ad684a9fe78614bce",
-      "instagram_post_id": "4016959005372761207",
-      "instagram_username": "jobs_update_in_goa",
-      "images": [
-        "images/jobs_update_in_goa_4016959005372761207_01.jpg",
-        "images/jobs_update_in_goa_4016959005372761207_02.jpg"
-      ]
-    },
-    {
-      "title": "Videographer/Photographer",
-      "company": "deviant",
-      "location": "",
-      "employment_type": "Professionals and Interns",
-      "vacancies": "",
-      "qualification": "",
-      "salary": "",
-      "last_date": "",
-      "apply": "Email CV to namaste@deviantstudio.co or Contact +91 8766402730 / +91 78759 03979",
-      "source": "",
-      "description": "Open position for Videographer/Photographer (Professionals and Interns)",
-      "job_id": "fb43f6f81fa0e0428b9d",
-      "instagram_post_id": "4017671720483873457",
-      "instagram_username": "jobs_update_in_goa",
-      "images": [
-        "images/jobs_update_in_goa_4017671720483873457_01.jpg",
-        "images/jobs_update_in_goa_4017671720483873457_02.jpg"
-      ]
-    },
     {
       "title": "Video Editor",
       "company": "deviant",
@@ -487,6 +427,46 @@
       "instagram_username": "dailyjobs__goa",
       "images": [
         "images/dailyjobs__goa_4018778324563332686_01.jpg"
+      ]
+    },
+    {
+      "title": "Mewesports Facilitator",
+      "company": "Sangath (ARG)",
+      "location": "North Goa",
+      "employment_type": "",
+      "vacancies": "02",
+      "qualification": "Minimum 10+2 level of education in any discipline",
+      "salary": "",
+      "last_date": "15/11/2026, 05:00 PM IST",
+      "apply": "Scan the QR code to fill the application form or write to argcareers@sangath.in for further information",
+      "source": "",
+      "description": "Project: Mewesports Greencliffe. Requirements: Below 35 years of age, based in Goa, able to travel independently for training and intervention activities, interested in sports, youth mental health, community engagement, and working with children/adolescents. Spoken fluency in Marathi, Hindi, and Konkani.",
+      "job_id": "37caa515bfd8fb53245a",
+      "instagram_post_id": "4019066594076134654",
+      "instagram_username": "jobs_update_in_goa",
+      "images": [
+        "images/jobs_update_in_goa_4019066594076134654_01.jpg",
+        "images/jobs_update_in_goa_4019066594076134654_02.jpg"
+      ]
+    },
+    {
+      "title": "Lab - Field Assistant",
+      "company": "Goa College of Agriculture",
+      "location": "Old Goa",
+      "employment_type": "Contract Basis (11 Months)",
+      "vacancies": "",
+      "qualification": "B.Sc. in Agriculture. Candidates with experience in working with Biofertilizers and Biopesticides production and utilization are preferred.",
+      "salary": "Rs. 20000/- per month",
+      "last_date": "Within 8 days from 29/10/2026",
+      "apply": "Send applications with self-attested/certified true copies of mark sheets from S.S.C. onwards to Principal, Goa College of Agriculture, Ela Farm, Old Goa. Application format is available on goacollegeofagriculture.edu.in",
+      "source": "goacollegeofagriculture.edu.in",
+      "description": "Project: Capacity building on production and utilization of Biofertilizers and biopesticides in North Goa at Goa College of Agriculture, Ela Farm, Old Goa, funded by North Goa District Mineral Foundation (Trust).",
+      "job_id": "c3363b0221e9ed23a523",
+      "instagram_post_id": "4019066594076134654",
+      "instagram_username": "jobs_update_in_goa",
+      "images": [
+        "images/jobs_update_in_goa_4019066594076134654_01.jpg",
+        "images/jobs_update_in_goa_4019066594076134654_02.jpg"
       ]
     }
   ]
