@@ -1,67 +1,6 @@
 {
-  "last_updated": "2026-11-07T16:01:28.413552+00:00",
+  "last_updated": "2026-11-07T20:09:21.097965+00:00",
   "jobs": [
-    {
-      "title": "Laboratory Assistant",
-      "company": "Mathagramastha Hindu Sabha's Shree Damodar Higher Secondary School of Science",
-      "location": "Comba, Margao - Goa",
-      "employment_type": "Regular",
-      "vacancies": "1",
-      "qualification": "XIIth Science with Computer Knowledge",
-      "salary": "",
-      "last_date": "Within 08 days from 06/11/2026",
-      "apply": "Apply within 08 days with Full Bio-data, application, testimonials, valid residence certificate, caste certificate, E.W.S. Certificate if applicable, valid Employment card to The Principal, Shree Damodar Higher Secondary School of Science, P. B. No. 53, Comba, Margao - Goa. 403 601.",
-      "source": "",
-      "description": "Post Reserved for E.W.S. Candidate",
-      "job_id": "da60671bc9384c4ede95",
-      "instagram_post_id": "4024276635410941763",
-      "instagram_username": "jobs_update_in_goa",
-      "images": [
-        "images/jobs_update_in_goa_4024276635410941763_01.jpg",
-        "images/jobs_update_in_goa_4024276635410941763_02.jpg",
-        "images/jobs_update_in_goa_4024276635410941763_03.jpg"
-      ]
-    },
-    {
-      "title": "Scientific Assistant (Microbiology) (Group 'B', Non-Gazetted)",
-      "company": "Goa State Pollution Control Board",
-      "location": "Saligao, Bardez, Goa",
-      "employment_type": "Regular",
-      "vacancies": "1",
-      "qualification": "Master's Degree in Microbiology/ Marine Microbiology from recognized University/ Institutions; Knowledge of Konkani; 15 years Residence certificate. Desirable: Knowledge of Marathi.",
-      "salary": "Level 6",
-      "last_date": "",
-      "apply": "Apply through online mode",
-      "source": "",
-      "description": "Age limit: Not exceeding 45 years (relaxable for Government servants upto 05 years).",
-      "job_id": "586486410f01ebdb7368",
-      "instagram_post_id": "4024936625410859409",
-      "instagram_username": "jobs_update_in_goa",
-      "images": [
-        "images/jobs_update_in_goa_4024936625410859409_01.jpg",
-        "images/jobs_update_in_goa_4024936625410859409_02.jpg"
-      ]
-    },
-    {
-      "title": "Scientific Assistant (Group 'B', Non-Gazetted)",
-      "company": "Goa State Pollution Control Board",
-      "location": "Saligao, Bardez, Goa",
-      "employment_type": "Regular",
-      "vacancies": "1",
-      "qualification": "Master's Degree in Chemistry/any branch of Environmental Sciences from recognized University/ Institutions; Knowledge of Konkani; 15 years Residence certificate. Desirable: Knowledge of Marathi.",
-      "salary": "Level 6",
-      "last_date": "",
-      "apply": "Apply through online mode",
-      "source": "",
-      "description": "Age limit: Not exceeding 45 years (relaxable for Government servants upto 05 years).",
-      "job_id": "d747eb8bcdcf8dc2abb3",
-      "instagram_post_id": "4024936625410859409",
-      "instagram_username": "jobs_update_in_goa",
-      "images": [
-        "images/jobs_update_in_goa_4024936625410859409_01.jpg",
-        "images/jobs_update_in_goa_4024936625410859409_02.jpg"
-      ]
-    },
     {
       "title": "Laboratory Attendant (Group 'C')",
       "company": "Goa State Pollution Control Board",
@@ -316,6 +255,63 @@
         "images/jobs_update_in_goa_4022718380809302468_02.jpg",
         "images/jobs_update_in_goa_4022718380809302468_03.jpg",
         "images/jobs_update_in_goa_4022718380809302468_04.jpg"
+      ]
+    },
+    {
+      "title": "Tabla Accompanist",
+      "company": "Kala Academy Goa",
+      "location": "Campal, Panaji-Goa",
+      "employment_type": "",
+      "vacancies": "",
+      "qualification": "",
+      "salary": "",
+      "last_date": "",
+      "apply": "www.dailyjobsgoa.in",
+      "source": "www.dailyjobsgoa.in",
+      "description": "",
+      "job_id": "74cc12077a6910a6639a",
+      "instagram_post_id": "4025286692476022516",
+      "instagram_username": "dailyjobs__goa",
+      "images": [
+        "images/dailyjobs__goa_4025286692476022516_01.jpg"
+      ]
+    },
+    {
+      "title": "Technical Assistant (Sound)",
+      "company": "Kala Academy Goa",
+      "location": "Campal, Panaji-Goa",
+      "employment_type": "",
+      "vacancies": "",
+      "qualification": "",
+      "salary": "",
+      "last_date": "",
+      "apply": "www.dailyjobsgoa.in",
+      "source": "www.dailyjobsgoa.in",
+      "description": "",
+      "job_id": "3d26be1ed0aae50ae629",
+      "instagram_post_id": "4025286692476022516",
+      "instagram_username": "dailyjobs__goa",
+      "images": [
+        "images/dailyjobs__goa_4025286692476022516_01.jpg"
+      ]
+    },
+    {
+      "title": "Multi Tasking Staff",
+      "company": "Kala Academy Goa",
+      "location": "Campal, Panaji-Goa",
+      "employment_type": "",
+      "vacancies": "",
+      "qualification": "",
+      "salary": "",
+      "last_date": "",
+      "apply": "www.dailyjobsgoa.in",
+      "source": "www.dailyjobsgoa.in",
+      "description": "",
+      "job_id": "81af6035db25253a7fb0",
+      "instagram_post_id": "4025286692476022516",
+      "instagram_username": "dailyjobs__goa",
+      "images": [
+        "images/dailyjobs__goa_4025286692476022516_01.jpg"
       ]
     }
   ]
